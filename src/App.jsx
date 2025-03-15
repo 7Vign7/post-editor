@@ -6,6 +6,7 @@ import Posts from "./pages/postsPage/Posts.jsx";
 import Post from "./pages/postPage/Post.jsx"
 import Editor from "./pages/postEditor/Editor.jsx";
 const App = () => {
+    const [un, setUn] = useState();
     // проверяем есть ли в локалсторедж посты, если нет, то делаем запрос и добавляем их
     useEffect(() => {
         if (!localStorage.getItem('posts')){
@@ -13,6 +14,7 @@ const App = () => {
                 try {
                     const response = await axios.get('https://67d43b2ad2c7857431ecf0bc.mockapi.io/api/posts/posts');
                     localStorage.setItem('posts', JSON.stringify(response.data));
+                    setUn(JSON.parse(localStorage.getItem('posts')));
                 } catch (error) {
                     console.error('Ошибка при загрузке данных:', error);
                 }
