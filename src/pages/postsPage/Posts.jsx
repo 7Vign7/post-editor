@@ -13,12 +13,12 @@ const Posts = () => {
         <div className={"posts"}>
             {posts.map((post)=>{ //тут можно было бы добавить index и в линк подсавить именно индекс, чтобы обращаться сразу к посту по индксу, но я решил сделать через find
                 return(
-                <Link  className={"post"} key={post.id} to={`/post/${post.id}`}>
-                    <div className={"postImg"}>
-                        <img src={post.img} alt={`На изображении: ${post.title}`}/>
+                <Link  className={"postInList"} key={post.id} to={`/post/${post.id}`}>
+                    <div className={"blockImg"}>
+                        <img className={"postsImg"} src={post.img} alt={`На изображении: ${post.title}`}/>
                     </div>
                     <h2>{post.title}</h2>
-                    <p>{post.description}</p>
+                    <p className="postsTextRestrictions">{post.description}</p>
                     <p style={{textAlign:"end"}}>{post.nameAuthor}</p>
                 </Link>
                 )

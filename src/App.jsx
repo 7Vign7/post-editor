@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios'
 import "./style.css"
-import {Route, Routes,Link} from "react-router-dom";
+import {Route, Routes, Link, useMatch,useLocation} from "react-router-dom";
 import Posts from "./pages/postsPage/Posts.jsx";
 import Post from "./pages/postPage/Post.jsx"
 import Editor from "./pages/postEditor/Editor.jsx";
@@ -19,10 +19,24 @@ const App = () => {
             })()
         }
     }, []);
+    function BackToPost (){
+        const match = useMatch('/post/editor/:id')
+        if(match){
+            const url = useLocation().pathname;
+            const id = useLocation().pathname[url.length-1]
+            return(
+                <Link to={`/post/${id}`}>Назад к посту</Link>
+            )
+        }
+        else{
+            return null
+        }
+    }
     return (
         <div>
             <nav>
                 <Link to={`/`}>Главная</Link>
+                <BackToPost/>
             </nav>
             <Routes>
                 <Route path="/" element={<Posts/>}/>
