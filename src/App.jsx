@@ -24,7 +24,7 @@ const App = () => {
         const match = useMatch('/post/editor/:id')
         if(match){
             const url = useLocation().pathname;
-            const id = useLocation().pathname[url.length-1]
+            const id = url.split("/").reverse()[0]
             return(
                 <Link to={`/post/${id}`}>Назад к посту</Link>
             )
