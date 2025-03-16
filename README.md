@@ -2,8 +2,13 @@
 
 Тестовое задание. 
 Использовал сборщик Vite.
-API mock.
+API: mock.
+
 Деплой: https://7vign7.github.io/yadro-test/
+
+`npm install`
+
+`npm start`
 
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
