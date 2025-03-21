@@ -6,43 +6,39 @@ import Posts from "./pages/postsPage/Posts.jsx";
 import Post from "./pages/postPage/Post.jsx"
 import Editor from "./pages/postEditor/Editor.jsx";
 const App = () => {
-    // проверяем есть ли в локалсторедж посты, если нет, то делаем запрос и добавляем их
+    const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
-        if (!localStorage.getItem('posts')){
+        const localStoragePost = localStorage.getItem('posts')
+        if (!localStoragePost){
             (async function fetchPosts(){
                 try {
                     const response = await axios.get('https://67d43b2ad2c7857431ecf0bc.mockapi.io/api/posts/posts');
                     localStorage.setItem('posts', JSON.stringify(response.data));
-                    location.reload();
+                    setPosts(response.data);
                 } catch (error) {
                     console.error('Ошибка при загрузке данных:', error);
                 }
             })()
+        }else{
+            setPosts(JSON.parse(localStoragePost));
         }
+        setLoading(false)
     }, []);
-    function BackToPost (){
-        const match = useMatch('/post/editor/:id')
-        if(match){
-            const url = useLocation().pathname;
-            const id = url.split("/").reverse()[0]
-            return(
-                <Link to={`/post/${id}`}>Назад к посту</Link>
-            )
-        }
-        else{
-            return null
-        }
+
+    if(loading){
+        return <div>Loading...</div>
     }
+
     return (
         <div>
             <nav>
                 <Link to={`/`}>Главная</Link>
-                <BackToPost/>
             </nav>
             <Routes>
-                <Route path="/" element={<Posts/>}/>
-                <Route path="/post/:id" element={<Post/>} />
-                <Route path="/post/editor/:id" element={<Editor/>} />
+                <Route path="/" element={<Posts posts={posts}/>}/>
+                <Route path="/post/:id" element={<Post posts={posts}/>} />
+                <Route path="/post/editor/:id" element={<Editor posts={posts} editPost={setPosts}/>} />
             </Routes>
         </div>
     );

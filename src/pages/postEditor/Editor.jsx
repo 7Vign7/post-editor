@@ -1,22 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useParams, useNavigate} from "react-router-dom";
 
-const Editor = () => {
+const Editor = (postInfo) => {
+    const {posts} = postInfo;
+    const {editPost} = postInfo;
     const { id } = useParams();
     const navigate = useNavigate();
-    const [post, setPost] = useState({
-        id: id,
-        title: '',
-        description: '',
-        img: '',
-        nameAuthor: ''
-    })
+    const [post, setPost] = useState(posts.find((post) => post.id === id));
     const [errors, setErrors] = useState("");
-
-    useEffect(()=>{
-        const [...save] = JSON.parse(localStorage.getItem('posts'))
-        setPost(save.find(post=>post.id === id))
-    },[])
 
     const formSubmit = (e) => {
         e.preventDefault();
@@ -27,6 +18,7 @@ const Editor = () => {
             const searchIndex = posts.findIndex(post=>post.id === id);
             posts[searchIndex] = post;
             localStorage.setItem('posts', JSON.stringify(posts));
+            editPost(JSON.parse(localStorage.getItem('posts')))
             navigate(`/post/${id}`);
         }
     };
@@ -80,7 +72,7 @@ const Editor = () => {
                         onChange={inputChange}
                         required
                     />
-                    {errors===""? null:<p style={{color:"red"}}>{errors}</p>}
+                    {errors===""? null:<p className="error">{errors}</p>}
                 </div>
                 <div>
                     <label>Имя автора:</label>

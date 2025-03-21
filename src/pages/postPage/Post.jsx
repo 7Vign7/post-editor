@@ -1,23 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useParams,Link } from "react-router-dom";
 
-const Post = () => {
+const Post = ({posts}) => {
     const { id } = useParams();
-    const [post, setPost] = useState({})
-    useEffect(()=>{
-        const [...save] = JSON.parse(localStorage.getItem('posts'))
-        setPost(save.find(post=>post.id === id))
-    },[])
+    const post = posts.find((post) => post.id === id)
     return (
         <div className="centerBlock">
+            <Link to={`/post/editor/${id}`} className={"linkEditor"}>Редактировать пост</Link>
             <div className={"post postPage"}>
-                <Link to={`/post/editor/${id}`} className={"linkEditor"}>Редактировать пост</Link>
-                <div className={"blockImg"}>
-                    <img style={{width: "100%"}} src={post.img} alt={`На изображении: ${post.title}`}/>
+                <div className="blockImage">
+                    <img src={post.img} alt={`На изображении: ${post.title}`}/>
                 </div>
                 <h2>{post.title}</h2>
+                <p className="authorPost">{post.nameAuthor}</p>
                 <p>{post.description}</p>
-                <p style={{textAlign: "end"}}>{post.nameAuthor}</p>
             </div>
         </div>
     );
