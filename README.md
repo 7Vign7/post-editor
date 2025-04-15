@@ -3,7 +3,7 @@
 Использовал сборщик Vite.
 API: mock.
 
-Деплой: https://7vign7.github.io/yadro-test/
+Деплой: https://7vign7.github.io/post-editor/
 
 `npm install`
 
